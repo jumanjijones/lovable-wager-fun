@@ -3,33 +3,45 @@ import { useCallback } from "react";
 import { Navigation } from "@/components/Navigation";
 import { CategoryCard } from "@/components/CategoryCard";
 import { Leaderboard } from "@/components/Leaderboard";
-import { toast } from "sonner";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { ArrowRight, Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Index = () => {
-  const handleCategoryClick = useCallback((category: string) => {
-    toast.info(`Coming soon: ${category} matches`);
-  }, []);
-
   const categories = [
     {
       title: "Pocket Change",
       description: "Perfect for casual players and newcomers. Low stakes, high fun!",
       minStake: "0.01 ETH",
       maxStake: "0.1 ETH",
+      activeMatches: [
+        { id: 1, game: "Coin Toss", players: 2, stake: "0.05 ETH", timeLimit: "5 min" },
+        { id: 2, game: "Card Draw", players: 2, stake: "0.02 ETH", timeLimit: "No limit" },
+      ]
     },
     {
       title: "Big Ballers",
       description: "For serious players looking for meaningful stakes.",
       minStake: "0.1 ETH",
       maxStake: "1 ETH",
+      activeMatches: [
+        { id: 3, game: "Random Shuffle", players: 4, stake: "0.5 ETH", timeLimit: "10 min" },
+      ]
     },
     {
       title: "High Limit VIP",
       description: "Exclusive high-stakes matches for the bold.",
       minStake: "1 ETH",
       maxStake: "∞",
+      activeMatches: []
     },
   ];
+
+  const handleJoinMatch = useCallback((matchId: number) => {
+    console.log(`Joining match ${matchId}`);
+    // Add join match logic here
+  }, []);
 
   return (
     <div className="min-h-screen bg-dark-purple bg-gradient-radial from-dark-purple via-dark-purple to-charcoal">
@@ -46,13 +58,50 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-up">
+        <div className="grid gap-16 animate-fade-up">
           {categories.map((category) => (
-            <CategoryCard
-              key={category.title}
-              {...category}
-              onClick={() => handleCategoryClick(category.title)}
-            />
+            <div key={category.title} className="space-y-6">
+              <CategoryCard {...category} />
+              
+              {category.activeMatches.length > 0 && (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 pl-4">
+                  {category.activeMatches.map((match) => (
+                    <motion.div
+                      key={match.id}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Card className="relative p-4 bg-white/5 backdrop-blur-xl border-white/10 cursor-pointer group"
+                            onClick={() => handleJoinMatch(match.id)}>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-light-purple">
+                              {match.game}
+                            </span>
+                            <span className="text-sm text-white/70">
+                              {match.timeLimit}
+                            </span>
+                          </div>
+                          <Separator className="bg-white/10" />
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Users size={16} className="text-white/70" />
+                              <span className="text-sm text-white/70">{match.players} players</span>
+                            </div>
+                            <span className="text-sm font-medium text-ocean-blue">
+                              {match.stake}
+                            </span>
+                          </div>
+                          <div className="absolute bottom-4 right-4 text-light-purple group-hover:text-ocean-blue transition-colors">
+                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </main>
