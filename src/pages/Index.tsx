@@ -2,6 +2,7 @@
 import { useCallback } from "react";
 import { Navigation } from "@/components/Navigation";
 import { CategoryCard } from "@/components/CategoryCard";
+import { Leaderboard } from "@/components/Leaderboard";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -33,6 +34,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-dark-purple bg-gradient-radial from-dark-purple via-dark-purple to-charcoal">
       <Navigation />
+      <Leaderboard />
       
       <main className="container mx-auto px-6 pt-32 pb-16">
         <div className="text-center mb-16 animate-fade-down">
