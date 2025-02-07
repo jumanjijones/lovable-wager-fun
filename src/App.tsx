@@ -11,8 +11,10 @@ import { Web3Provider } from "@ethersproject/providers";
 
 const queryClient = new QueryClient();
 
-const getLibrary = (provider: any): Web3Provider => {
-  return new Web3Provider(provider);
+const getLibrary = (provider: any) => {
+  const library = new Web3Provider(provider);
+  library.pollingInterval = 12000;
+  return library;
 };
 
 const App = () => (

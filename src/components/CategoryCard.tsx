@@ -1,12 +1,27 @@
 
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { formatCurrencyValue } from "../utils/currency";
 
-interface CategoryCardProps {
+export type SupportedCurrency = {
+  symbol: string;
+  name: string;
+  chain: "solana" | "evm";
+  contractAddress?: string;
+  decimals: number;
+};
+
+export interface CategoryCardProps {
   title: string;
   description: string;
-  minStake: string;
-  maxStake: string;
+  minStake: {
+    amount: string;
+    currency: SupportedCurrency;
+  };
+  maxStake: {
+    amount: string;
+    currency: SupportedCurrency;
+  };
   onClick?: () => void;
 }
 
@@ -32,7 +47,7 @@ export const CategoryCard = ({
       <div className="relative flex flex-col gap-4">
         <div>
           <span className="text-xs font-medium text-light-purple uppercase tracking-wider">
-            Stakes: {minStake} - {maxStake}
+            Stakes: {formatCurrencyValue(minStake)} - {formatCurrencyValue(maxStake)}
           </span>
           <h3 className="text-2xl font-semibold text-white mt-2">{title}</h3>
           <p className="text-white/70 mt-2">{description}</p>
