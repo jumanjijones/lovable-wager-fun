@@ -1,12 +1,59 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useCallback } from "react";
+import { Navigation } from "@/components/Navigation";
+import { CategoryCard } from "@/components/CategoryCard";
+import { toast } from "sonner";
 
 const Index = () => {
+  const handleCategoryClick = useCallback((category: string) => {
+    toast.info(`Coming soon: ${category} matches`);
+  }, []);
+
+  const categories = [
+    {
+      title: "Pocket Change",
+      description: "Perfect for casual players and newcomers. Low stakes, high fun!",
+      minStake: "0.01 ETH",
+      maxStake: "0.1 ETH",
+    },
+    {
+      title: "Big Ballers",
+      description: "For serious players looking for meaningful stakes.",
+      minStake: "0.1 ETH",
+      maxStake: "1 ETH",
+    },
+    {
+      title: "High Limit VIP",
+      description: "Exclusive high-stakes matches for the bold.",
+      minStake: "1 ETH",
+      maxStake: "∞",
+    },
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-cream">
+      <Navigation />
+      
+      <main className="container mx-auto px-6 pt-32 pb-16">
+        <div className="text-center mb-16 animate-fade-down">
+          <h1 className="text-4xl md:text-5xl font-bold text-charcoal mb-4">
+            Welcome to Run It!
+          </h1>
+          <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
+            The premier decentralized wagering platform. Choose your category and start playing!
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-up">
+          {categories.map((category) => (
+            <CategoryCard
+              key={category.title}
+              {...category}
+              onClick={() => handleCategoryClick(category.title)}
+            />
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
