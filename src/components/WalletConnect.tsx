@@ -1,22 +1,21 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { Connection } from "@solana/web3.js";
-import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
+import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Wallet } from "lucide-react";
 
 const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42], // Ethereum networks
+  supportedChainIds: [1, 3, 4, 5, 42],
 });
 
 export const WalletConnect = () => {
   const [phantomWallet, setPhantomWallet] = useState<any>(null);
-  const { activate, account } = useWeb3React();
+  const { connector, library, chainId, account, active, error, provider } = useWeb3React();
   const { toast } = useToast();
 
-  // Check for Phantom wallet
   useEffect(() => {
     if ("solana" in window) {
       setPhantomWallet(window.solana);
@@ -45,11 +44,13 @@ export const WalletConnect = () => {
 
   const connectMetaMask = useCallback(async () => {
     try {
-      await activate(injected);
-      toast({
-        title: "Connected to MetaMask",
-        description: "Successfully connected to MetaMask wallet",
-      });
+      if (!active && connector) {
+        await connector.activate();
+        toast({
+          title: "Connected to MetaMask",
+          description: "Successfully connected to MetaMask wallet",
+        });
+      }
     } catch (error) {
       toast({
         title: "Connection Failed",
@@ -57,7 +58,7 @@ export const WalletConnect = () => {
         variant: "destructive",
       });
     }
-  }, [activate, toast]);
+  }, [connector, active, toast]);
 
   return (
     <div className="flex gap-2">

@@ -11,9 +11,9 @@ import { Web3Provider } from "@ethersproject/providers";
 
 const queryClient = new QueryClient();
 
-function getLibrary(provider: any) {
+const getLibrary = (provider: any): Web3Provider => {
   return new Web3Provider(provider);
-}
+};
 
 const App = () => (
   <Web3ReactProvider getLibrary={getLibrary}>
