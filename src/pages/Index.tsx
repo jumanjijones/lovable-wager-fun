@@ -8,8 +8,11 @@ import { Separator } from "@/components/ui/separator";
 import { Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { CreateMatchButton } from "@/components/CreateMatchButton";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
+  const { toast } = useToast();
+
   const categories = [
     {
       title: "Pocket Change",
@@ -18,8 +21,8 @@ const Index = () => {
       maxEntry: "100",
       poolValue: "1,234",
       activeMatches: [
-        { id: 1, game: "Coin Toss", players: 2, stake: "$50", timeLimit: "5 min" },
-        { id: 2, game: "Card Draw", players: 2, stake: "$25", timeLimit: "No limit" },
+        { id: 1, game: "Coin Toss", players: 2, maxPlayers: 2, stake: "$50", timeLimit: "5 min" },
+        { id: 2, game: "Card Draw", players: 1, maxPlayers: 2, stake: "$25", timeLimit: "No limit" },
       ]
     },
     {
@@ -29,7 +32,7 @@ const Index = () => {
       maxEntry: "10,000",
       poolValue: "25,650",
       activeMatches: [
-        { id: 3, game: "Random Shuffle", players: 4, stake: "$500", timeLimit: "10 min" },
+        { id: 3, game: "Random Shuffle", players: 2, maxPlayers: 4, stake: "$500", timeLimit: "10 min" },
       ]
     },
     {
@@ -42,10 +45,23 @@ const Index = () => {
     },
   ];
 
-  const handleJoinMatch = useCallback((matchId: number) => {
+  const handleJoinMatch = useCallback((matchId: number, currentPlayers: number, maxPlayers: number) => {
+    if (currentPlayers >= maxPlayers) {
+      toast({
+        variant: "destructive",
+        title: "Match is full",
+        description: "This match has reached its maximum number of players.",
+      });
+      return;
+    }
+
     console.log(`Joining match ${matchId}`);
+    toast({
+      title: "Joining match...",
+      description: "You are being added to the match.",
+    });
     // Add join match logic here
-  }, []);
+  }, [toast]);
 
   return (
     <div className="min-h-screen bg-dark-purple bg-gradient-radial from-dark-purple via-dark-purple to-charcoal">
@@ -88,8 +104,12 @@ const Index = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Card className="relative p-4 bg-white/5 backdrop-blur-xl border-white/10 cursor-pointer group"
-                            onClick={() => handleJoinMatch(match.id)}>
+                      <Card 
+                        className={`relative p-4 bg-white/5 backdrop-blur-xl border-white/10 cursor-pointer group ${
+                          match.players >= match.maxPlayers ? 'opacity-50' : ''
+                        }`}
+                        onClick={() => handleJoinMatch(match.id, match.players, match.maxPlayers)}
+                      >
                         <div className="space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium text-light-purple">
@@ -103,12 +123,19 @@ const Index = () => {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <Users size={16} className="text-white/70" />
-                              <span className="text-sm text-white/70">{match.players} players</span>
+                              <span className="text-sm text-white/70">
+                                {match.players}/{match.maxPlayers} players
+                              </span>
                             </div>
                             <span className="text-sm font-medium text-ocean-blue">
                               {match.stake}
                             </span>
                           </div>
+                          {match.players >= match.maxPlayers && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
+                              <span className="text-white font-medium">Match Full</span>
+                            </div>
+                          )}
                         </div>
                       </Card>
                     </motion.div>
