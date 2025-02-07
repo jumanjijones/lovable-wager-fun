@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { CreateMatchButton } from "@/components/CreateMatchButton";
+import { PLCard } from "@/components/PLCard";
 
 const Index = () => {
   const categories = [
@@ -62,8 +63,17 @@ const Index = () => {
           <Leaderboard />
         </div>
 
-        <div className="flex justify-center mb-16">
+        <div className="flex justify-center mb-8">
           <CreateMatchButton />
+        </div>
+
+        <div className="mb-16 max-w-md mx-auto">
+          <PLCard
+            profit="+2.5 ETH"
+            timeFrame="Last 30 Days"
+            trades={42}
+            winRate="68%"
+          />
         </div>
 
         <div className="grid gap-16 animate-fade-up">
