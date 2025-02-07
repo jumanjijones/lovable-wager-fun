@@ -19,23 +19,26 @@ export const CategoryCard = ({
 }: CategoryCardProps) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.02, translateY: -5 }}
       whileTap={{ scale: 0.98 }}
-      className="relative p-6 rounded-xl backdrop-blur-md bg-white/10 border border-white/20 shadow-xl cursor-pointer overflow-hidden group"
+      className="relative p-6 rounded-xl overflow-hidden cursor-pointer group"
       onClick={onClick}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {/* Gradient background with glass effect */}
+      <div className="absolute inset-0 bg-gradient-card opacity-10" />
+      <div className="absolute inset-0 backdrop-blur-xl bg-white/5" />
       
-      <div className="flex flex-col gap-4">
+      {/* Card content */}
+      <div className="relative flex flex-col gap-4">
         <div>
-          <span className="text-xs font-medium text-gold/80 uppercase tracking-wider">
+          <span className="text-xs font-medium text-light-purple uppercase tracking-wider">
             Stakes: {minStake} - {maxStake}
           </span>
-          <h3 className="text-2xl font-semibold text-charcoal mt-2">{title}</h3>
-          <p className="text-charcoal/70 mt-2">{description}</p>
+          <h3 className="text-2xl font-semibold text-white mt-2">{title}</h3>
+          <p className="text-white/70 mt-2">{description}</p>
         </div>
         
-        <div className="flex items-center text-gold hover:text-gold/80 transition-colors">
+        <div className="flex items-center text-light-purple group-hover:text-ocean-blue transition-colors">
           <span className="text-sm font-medium">Enter Room</span>
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
         </div>

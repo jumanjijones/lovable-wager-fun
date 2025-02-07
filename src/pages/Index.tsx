@@ -31,15 +31,15 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-dark-purple bg-gradient-radial from-dark-purple via-dark-purple to-charcoal">
       <Navigation />
       
       <main className="container mx-auto px-6 pt-32 pb-16">
         <div className="text-center mb-16 animate-fade-down">
-          <h1 className="text-4xl md:text-5xl font-bold text-charcoal mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-light-purple to-ocean-blue">
             Welcome to Run It!
           </h1>
-          <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 max-w-2xl mx-auto">
             The premier decentralized wagering platform. Choose your category and start playing!
           </p>
         </div>

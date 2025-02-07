@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -28,6 +27,9 @@ export default {
         cream: "#FAF9F6",
         gold: "#D4AF37",
         charcoal: "#222222",
+        "dark-purple": "#1A1F2C",
+        "light-purple": "#9b87f5",
+        "ocean-blue": "#0EA5E9",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -98,6 +100,10 @@ export default {
         "fade-up": "fade-up 0.5s ease-out",
         "fade-down": "fade-down 0.5s ease-out",
         "scale-in": "scale-in 0.3s ease-out",
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-card': 'linear-gradient(225deg, #9b87f5 0%, #0EA5E9 100%)',
       },
     },
   },
