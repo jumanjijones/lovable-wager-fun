@@ -6,7 +6,6 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Wallet } from "lucide-react";
-import { Web3Provider } from "@ethersproject/providers";
 
 const injected = new InjectedConnector({
   supportedChainIds: [1, 56, 137] // Ethereum, BSC, Polygon
