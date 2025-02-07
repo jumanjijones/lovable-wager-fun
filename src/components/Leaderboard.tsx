@@ -1,5 +1,6 @@
 
-import { Trophy } from "lucide-react";
+import { Trophy, Award } from "lucide-react";
+import { Card } from "./ui/card";
 
 interface LeaderboardEntry {
   rank: number;
@@ -8,33 +9,68 @@ interface LeaderboardEntry {
   winRate: string;
 }
 
+interface RecentMatch {
+  winner: string;
+  amount: string;
+  game: string;
+  timestamp: string;
+}
+
 const mockLeaderboard: LeaderboardEntry[] = [
   { rank: 1, username: "CryptoKing", points: 2500, winRate: "75%" },
   { rank: 2, username: "BlockMaster", points: 2200, winRate: "70%" },
   { rank: 3, username: "Web3Pro", points: 2000, winRate: "68%" },
+  { rank: 4, username: "SolanaWhale", points: 1800, winRate: "65%" },
+  { rank: 5, username: "CoinFlipPro", points: 1600, winRate: "62%" },
+];
+
+const recentMatches: RecentMatch[] = [
+  { winner: "CryptoKing", amount: "$500", game: "Coin Toss", timestamp: "2 min ago" },
+  { winner: "BlockMaster", amount: "$1,200", game: "Card Draw", timestamp: "5 min ago" },
+  { winner: "Web3Pro", amount: "$800", game: "Random Shuffle", timestamp: "10 min ago" },
 ];
 
 export const Leaderboard = () => {
   return (
-    <div className="w-full bg-dark-purple/50 backdrop-blur-xl border-b border-white/10 py-2">
-      <div className="container mx-auto px-6">
-        <div className="flex items-center gap-2 overflow-x-auto">
-          <div className="flex items-center gap-2 text-ocean-blue">
-            <Trophy size={20} />
-            <span className="text-sm font-semibold whitespace-nowrap">Top Players:</span>
-          </div>
-          {mockLeaderboard.map((entry) => (
-            <div
-              key={entry.rank}
-              className="flex items-center gap-3 border-l border-white/10 pl-3"
-            >
-              <span className="text-light-purple font-bold">#{entry.rank}</span>
-              <div className="text-sm">
-                <p className="text-white font-medium">{entry.username}</p>
-                <p className="text-white/70 text-xs">{entry.points} pts • {entry.winRate} WR</p>
-              </div>
+    <div className="space-y-4">
+      {/* Recent Winners Section */}
+      <Card className="bg-dark-purple/50 backdrop-blur-xl border-white/10 p-4">
+        <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+          <Award className="text-ocean-blue" />
+          Recent Winners
+        </h3>
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {recentMatches.map((match, index) => (
+            <div key={index} className="min-w-[200px] bg-white/5 rounded-lg p-3">
+              <div className="text-ocean-blue font-medium">{match.winner}</div>
+              <div className="text-white/70 text-sm">Won {match.amount}</div>
+              <div className="text-white/50 text-xs">{match.game} • {match.timestamp}</div>
             </div>
           ))}
+        </div>
+      </Card>
+
+      {/* Leaderboard Section */}
+      <div className="w-full bg-dark-purple/50 backdrop-blur-xl border-b border-white/10 py-4">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Trophy size={24} className="text-ocean-blue" />
+            <span className="text-lg font-semibold text-white">Top Players</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {mockLeaderboard.map((entry) => (
+              <div
+                key={entry.rank}
+                className="flex items-center gap-4 bg-white/5 rounded-lg p-4"
+              >
+                <span className="text-2xl text-light-purple font-bold">#{entry.rank}</span>
+                <div>
+                  <p className="text-white font-medium">{entry.username}</p>
+                  <p className="text-white/70 text-sm">{entry.points} pts • {entry.winRate} WR</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

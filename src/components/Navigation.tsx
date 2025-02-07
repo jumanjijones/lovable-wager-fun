@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { CreateMatchButton } from "./CreateMatchButton";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +22,7 @@ export const Navigation = () => {
 
   const mockWalletData = {
     address: "0x1234...5678",
-    balance: "1.5 ETH",
+    balance: "1.5 SOL",
     points: 1250,
   };
 
@@ -68,7 +67,6 @@ export const Navigation = () => {
                 Connect Wallet
               </Button>
             )}
-            <CreateMatchButton />
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,7 +106,6 @@ export const Navigation = () => {
                     Connect Wallet
                   </Button>
                 )}
-                <CreateMatchButton />
               </div>
             </div>
           </motion.div>
