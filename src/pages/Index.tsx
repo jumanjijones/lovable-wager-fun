@@ -61,7 +61,12 @@ const Index = () => {
         <div className="grid gap-16 animate-fade-up">
           {categories.map((category) => (
             <div key={category.title} className="space-y-6">
-              <CategoryCard {...category} />
+              <CategoryCard
+                title={category.title}
+                description={category.description}
+                minStake={category.minStake}
+                maxStake={category.maxStake}
+              />
               
               {category.activeMatches.length > 0 && (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 pl-4">

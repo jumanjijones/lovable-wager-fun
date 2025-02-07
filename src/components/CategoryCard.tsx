@@ -7,7 +7,7 @@ interface CategoryCardProps {
   description: string;
   minStake: string;
   maxStake: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const CategoryCard = ({
