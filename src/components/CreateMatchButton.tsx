@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export const CreateMatchButton = () => {
   const [matchType, setMatchType] = useState("public");
@@ -25,6 +26,15 @@ export const CreateMatchButton = () => {
       timeLimit,
       participants,
     });
+  };
+
+  const handleParticipantsChange = (value: string) => {
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue >= 2 && numValue <= 100) {
+      setParticipants(value);
+    } else if (value === "") {
+      setParticipants("");
+    }
   };
 
   return (
@@ -76,12 +86,15 @@ export const CreateMatchButton = () => {
         <DropdownMenuSeparator className="bg-white/10" />
         
         <div className="p-2">
-          <label className="text-xs text-white/70">Participants</label>
-          <DropdownMenuRadioGroup value={participants} onValueChange={setParticipants}>
-            <DropdownMenuRadioItem value="2" className="text-white">2 Players</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="3" className="text-white">3 Players</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="4" className="text-white">4 Players</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
+          <label className="text-xs text-white/70">Number of Participants (2-100)</label>
+          <Input
+            type="number"
+            min="2"
+            max="100"
+            value={participants}
+            onChange={(e) => handleParticipantsChange(e.target.value)}
+            className="mt-1 bg-white/5 border-white/10 text-white"
+          />
         </div>
 
         <DropdownMenuSeparator className="bg-white/10" />
