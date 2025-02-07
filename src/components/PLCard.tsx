@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Share2 } from "lucide-react";
-import { BrandsTelegram, BrandsDiscord, BrandsTwitterX } from "tabler-icons-react";
+import { BrandTelegram, BrandDiscord, BrandTwitter } from "tabler-icons-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
@@ -98,7 +98,7 @@ Join me on Run It!`;
               onClick={() => handleShare('telegram')}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
-              <BrandsTelegram className="text-light-purple" size={20} />
+              <BrandTelegram className="text-light-purple" size={20} />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -106,7 +106,7 @@ Join me on Run It!`;
               onClick={() => handleShare('discord')}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
-              <BrandsDiscord className="text-light-purple" size={20} />
+              <BrandDiscord className="text-light-purple" size={20} />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -114,7 +114,7 @@ Join me on Run It!`;
               onClick={() => handleShare('twitter')}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
-              <BrandsTwitterX className="text-light-purple" size={20} />
+              <BrandTwitter className="text-light-purple" size={20} />
             </motion.button>
           </div>
         </div>
