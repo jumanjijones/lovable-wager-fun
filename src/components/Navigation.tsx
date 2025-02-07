@@ -36,9 +36,7 @@ export const Navigation = () => {
           </a>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-4">
-            <CreateMatchButton />
-            
+          <div className="hidden md:flex items-center gap-4">
             {isConnected ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -70,6 +68,7 @@ export const Navigation = () => {
                 Connect Wallet
               </Button>
             )}
+            <CreateMatchButton />
           </div>
 
           {/* Mobile Menu Button */}
@@ -93,7 +92,6 @@ export const Navigation = () => {
           >
             <div className="container mx-auto px-6 py-4">
               <div className="flex flex-col space-y-4">
-                <CreateMatchButton />
                 {isConnected ? (
                   <Button 
                     variant="outline"
@@ -110,6 +108,7 @@ export const Navigation = () => {
                     Connect Wallet
                   </Button>
                 )}
+                <CreateMatchButton />
               </div>
             </div>
           </motion.div>
