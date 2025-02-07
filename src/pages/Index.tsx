@@ -8,23 +8,14 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { CreateMatchButton } from "@/components/CreateMatchButton";
-import { SUPPORTED_CURRENCIES } from "../utils/currency";
 
 const Index = () => {
-  const ETH_CURRENCY = SUPPORTED_CURRENCIES.find(c => c.symbol === "ETH")!;
-  
   const categories = [
     {
       title: "Pocket Change",
       description: "Perfect for casual players and newcomers. Low stakes, high fun!",
-      minStake: {
-        amount: "0.01",
-        currency: ETH_CURRENCY
-      },
-      maxStake: {
-        amount: "0.1",
-        currency: ETH_CURRENCY
-      },
+      minStake: "0.01 ETH",
+      maxStake: "0.1 ETH",
       activeMatches: [
         { id: 1, game: "Coin Toss", players: 2, stake: "0.05 ETH", timeLimit: "5 min" },
         { id: 2, game: "Card Draw", players: 2, stake: "0.02 ETH", timeLimit: "No limit" },
@@ -33,14 +24,8 @@ const Index = () => {
     {
       title: "Big Ballers",
       description: "For serious players looking for meaningful stakes.",
-      minStake: {
-        amount: "0.1",
-        currency: ETH_CURRENCY
-      },
-      maxStake: {
-        amount: "1",
-        currency: ETH_CURRENCY
-      },
+      minStake: "0.1 ETH",
+      maxStake: "1 ETH",
       activeMatches: [
         { id: 3, game: "Random Shuffle", players: 4, stake: "0.5 ETH", timeLimit: "10 min" },
       ]
@@ -48,14 +33,8 @@ const Index = () => {
     {
       title: "High Limit VIP",
       description: "Exclusive high-stakes matches for the bold.",
-      minStake: {
-        amount: "1",
-        currency: ETH_CURRENCY
-      },
-      maxStake: {
-        amount: "100",
-        currency: ETH_CURRENCY
-      },
+      minStake: "1 ETH",
+      maxStake: "∞",
       activeMatches: []
     },
   ];
