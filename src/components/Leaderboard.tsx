@@ -22,12 +22,19 @@ const mockLeaderboard: LeaderboardEntry[] = [
   { rank: 3, username: "Web3Pro", points: 2000, winRate: "68%" },
   { rank: 4, username: "SolanaWhale", points: 1800, winRate: "65%" },
   { rank: 5, username: "CoinFlipPro", points: 1600, winRate: "62%" },
+  { rank: 6, username: "BitLord", points: 1500, winRate: "60%" },
+  { rank: 7, username: "ChainMaster", points: 1400, winRate: "58%" },
+  { rank: 8, username: "TokenKing", points: 1300, winRate: "56%" },
+  { rank: 9, username: "CryptoQueen", points: 1200, winRate: "54%" },
+  { rank: 10, username: "BlockChampion", points: 1100, winRate: "52%" },
 ];
 
 const recentMatches: RecentMatch[] = [
   { winner: "CryptoKing", amount: "$500", game: "Coin Toss", timestamp: "2 min ago" },
   { winner: "BlockMaster", amount: "$1,200", game: "Card Draw", timestamp: "5 min ago" },
   { winner: "Web3Pro", amount: "$800", game: "Random Shuffle", timestamp: "10 min ago" },
+  { winner: "SolanaWhale", amount: "$650", game: "Coin Toss", timestamp: "15 min ago" },
+  { winner: "CoinFlipPro", amount: "$900", game: "Card Draw", timestamp: "20 min ago" },
 ];
 
 export const Leaderboard = () => {
@@ -39,9 +46,9 @@ export const Leaderboard = () => {
           <Award className="text-ocean-blue" />
           Recent Winners
         </h3>
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {recentMatches.map((match, index) => (
-            <div key={index} className="min-w-[200px] bg-white/5 rounded-lg p-3">
+            <div key={index} className="bg-white/5 rounded-lg p-3">
               <div className="text-ocean-blue font-medium">{match.winner}</div>
               <div className="text-white/70 text-sm">Won {match.amount}</div>
               <div className="text-white/50 text-xs">{match.game} • {match.timestamp}</div>
@@ -57,7 +64,7 @@ export const Leaderboard = () => {
             <Trophy size={24} className="text-ocean-blue" />
             <span className="text-lg font-semibold text-white">Top Players</span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {mockLeaderboard.map((entry) => (
               <div
                 key={entry.rank}
