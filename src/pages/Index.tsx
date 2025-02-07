@@ -57,26 +57,26 @@ const Index = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-light-purple to-ocean-blue">
             Welcome to Run It!
           </h1>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
             The premier Solana wagering platform. Choose your category and start playing!
           </p>
+          
+          <div className="flex justify-center mb-8">
+            <CreateMatchButton />
+          </div>
+
+          <div className="max-w-md mx-auto mb-12">
+            <PLCard
+              profit="+2.5 SOL"
+              timeFrame="Last 30 Days"
+              trades={42}
+              winRate="68%"
+            />
+          </div>
         </div>
 
         <div className="mb-8">
           <Leaderboard />
-        </div>
-
-        <div className="flex justify-center mb-8">
-          <CreateMatchButton />
-        </div>
-
-        <div className="mb-16 max-w-md mx-auto">
-          <PLCard
-            profit="+2.5 SOL"
-            timeFrame="Last 30 Days"
-            trades={42}
-            winRate="68%"
-          />
         </div>
 
         <div className="grid gap-16 animate-fade-up">
