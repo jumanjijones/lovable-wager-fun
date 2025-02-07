@@ -1,7 +1,8 @@
 
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Share2, Telegram, Discord, Twitter } from "lucide-react";
+import { Share2 } from "lucide-react";
+import { BrandsTelegram, BrandsDiscord, BrandsTwitterX } from "tabler-icons-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
@@ -10,10 +11,17 @@ interface PLCardProps {
   timeFrame: string;
   trades: number;
   winRate: string;
+  network?: "solana" | "ethereum" | "polygon" // Extensible for future networks
 }
 
-export const PLCard = ({ profit, timeFrame, trades, winRate }: PLCardProps) => {
-  const shareMessage = `Check out my trading performance:
+export const PLCard = ({ 
+  profit, 
+  timeFrame, 
+  trades, 
+  winRate, 
+  network = "solana" // Default to Solana
+}: PLCardProps) => {
+  const shareMessage = `Check out my ${network} trading performance:
 🚀 P&L: ${profit}
 📊 Win Rate: ${winRate}
 💫 Trades: ${trades}
@@ -51,7 +59,9 @@ Join me on Run It!`;
         <div className="flex justify-between items-start mb-4">
           <div>
             <h3 className="text-2xl font-bold text-white">P&L Stats</h3>
-            <p className="text-white/70">{timeFrame}</p>
+            <p className="text-white/70">
+              {timeFrame} • {network.charAt(0).toUpperCase() + network.slice(1)}
+            </p>
           </div>
           <Share2 className="text-light-purple" size={24} />
         </div>
@@ -88,7 +98,7 @@ Join me on Run It!`;
               onClick={() => handleShare('telegram')}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
-              <Telegram className="text-light-purple" size={20} />
+              <BrandsTelegram className="text-light-purple" size={20} />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -96,7 +106,7 @@ Join me on Run It!`;
               onClick={() => handleShare('discord')}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
-              <Discord className="text-light-purple" size={20} />
+              <BrandsDiscord className="text-light-purple" size={20} />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -104,7 +114,7 @@ Join me on Run It!`;
               onClick={() => handleShare('twitter')}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
             >
-              <Twitter className="text-light-purple" size={20} />
+              <BrandsTwitterX className="text-light-purple" size={20} />
             </motion.button>
           </div>
         </div>
