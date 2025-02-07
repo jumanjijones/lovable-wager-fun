@@ -1,20 +1,21 @@
 
-import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface CategoryCardProps {
   title: string;
   description: string;
-  minStake: string;
-  maxStake: string;
+  minEntry: string;
+  maxEntry: string;
+  poolValue: string;
   onClick?: () => void;
 }
 
 export const CategoryCard = ({
   title,
   description,
-  minStake,
-  maxStake,
+  minEntry,
+  maxEntry,
+  poolValue,
   onClick,
 }: CategoryCardProps) => {
   return (
@@ -31,16 +32,16 @@ export const CategoryCard = ({
       {/* Card content */}
       <div className="relative flex flex-col gap-4">
         <div>
-          <span className="text-xs font-medium text-light-purple uppercase tracking-wider">
-            Stakes: {minStake} - {maxStake}
-          </span>
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-medium text-light-purple uppercase tracking-wider">
+              Entry: ${minEntry} - ${maxEntry}
+            </span>
+            <span className="text-xs font-medium text-ocean-blue uppercase tracking-wider">
+              Pool: ${poolValue}
+            </span>
+          </div>
           <h3 className="text-2xl font-semibold text-white mt-2">{title}</h3>
           <p className="text-white/70 mt-2">{description}</p>
-        </div>
-        
-        <div className="flex items-center text-light-purple group-hover:text-ocean-blue transition-colors">
-          <span className="text-sm font-medium">Enter Room</span>
-          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
     </motion.div>

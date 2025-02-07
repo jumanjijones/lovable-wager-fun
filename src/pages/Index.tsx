@@ -5,7 +5,7 @@ import { CategoryCard } from "@/components/CategoryCard";
 import { Leaderboard } from "@/components/Leaderboard";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { CreateMatchButton } from "@/components/CreateMatchButton";
 import { PLCard } from "@/components/PLCard";
@@ -15,27 +15,30 @@ const Index = () => {
     {
       title: "Pocket Change",
       description: "Perfect for casual players and newcomers. Low stakes, high fun!",
-      minStake: "0.01 ETH",
-      maxStake: "0.1 ETH",
+      minEntry: "1",
+      maxEntry: "100",
+      poolValue: "1,234",
       activeMatches: [
-        { id: 1, game: "Coin Toss", players: 2, stake: "0.05 ETH", timeLimit: "5 min" },
-        { id: 2, game: "Card Draw", players: 2, stake: "0.02 ETH", timeLimit: "No limit" },
+        { id: 1, game: "Coin Toss", players: 2, stake: "$50", timeLimit: "5 min" },
+        { id: 2, game: "Card Draw", players: 2, stake: "$25", timeLimit: "No limit" },
       ]
     },
     {
       title: "Big Ballers",
       description: "For serious players looking for meaningful stakes.",
-      minStake: "0.1 ETH",
-      maxStake: "1 ETH",
+      minEntry: "101",
+      maxEntry: "10,000",
+      poolValue: "25,650",
       activeMatches: [
-        { id: 3, game: "Random Shuffle", players: 4, stake: "0.5 ETH", timeLimit: "10 min" },
+        { id: 3, game: "Random Shuffle", players: 4, stake: "$500", timeLimit: "10 min" },
       ]
     },
     {
       title: "High Limit VIP",
       description: "Exclusive high-stakes matches for the bold.",
-      minStake: "1 ETH",
-      maxStake: "∞",
+      minEntry: "10,001",
+      maxEntry: "∞",
+      poolValue: "156,780",
       activeMatches: []
     },
   ];
@@ -55,7 +58,7 @@ const Index = () => {
             Welcome to Run It!
           </h1>
           <p className="text-lg text-white/70 max-w-2xl mx-auto">
-            The premier decentralized wagering platform. Choose your category and start playing!
+            The premier Solana wagering platform. Choose your category and start playing!
           </p>
         </div>
 
@@ -69,7 +72,7 @@ const Index = () => {
 
         <div className="mb-16 max-w-md mx-auto">
           <PLCard
-            profit="+2.5 ETH"
+            profit="+2.5 SOL"
             timeFrame="Last 30 Days"
             trades={42}
             winRate="68%"
@@ -82,8 +85,9 @@ const Index = () => {
               <CategoryCard
                 title={category.title}
                 description={category.description}
-                minStake={category.minStake}
-                maxStake={category.maxStake}
+                minEntry={category.minEntry}
+                maxEntry={category.maxEntry}
+                poolValue={category.poolValue}
               />
               
               {category.activeMatches.length > 0 && (
@@ -114,9 +118,6 @@ const Index = () => {
                             <span className="text-sm font-medium text-ocean-blue">
                               {match.stake}
                             </span>
-                          </div>
-                          <div className="absolute bottom-4 right-4 text-light-purple group-hover:text-ocean-blue transition-colors">
-                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>
                       </Card>
