@@ -14,7 +14,7 @@ const injected = new InjectedConnector({
 
 export const WalletConnect = () => {
   const [phantomWallet, setPhantomWallet] = useState<any>(null);
-  const { account, activate, deactivate } = useWeb3React<Web3Provider>();
+  const { account, activate: activateWeb3, deactivate: deactivateWeb3 } = useWeb3React<Web3Provider>();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const WalletConnect = () => {
 
   const connectMetaMask = useCallback(async () => {
     try {
-      await activate(injected);
+      await activateWeb3(injected);
       toast({
         title: "Connected to MetaMask",
         description: "Successfully connected to MetaMask wallet",
@@ -57,7 +57,7 @@ export const WalletConnect = () => {
         variant: "destructive",
       });
     }
-  }, [activate, toast]);
+  }, [activateWeb3, toast]);
 
   return (
     <div className="flex gap-2">
