@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Menu, X, Wallet } from "lucide-react";
+import { Menu, X, Wallet, TrendingUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   DropdownMenu,
@@ -11,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { PLCard } from "@/components/PLCard";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +38,26 @@ export const Navigation = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="bg-dark-purple/50 border-white/10 text-white">
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  P&L Stats
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-dark-purple/95 border-white/10">
+                <DialogHeader>
+                  <DialogTitle className="text-white">Your P&L Statistics</DialogTitle>
+                </DialogHeader>
+                <PLCard
+                  profit="+2.5 SOL"
+                  timeFrame="Last 30 Days"
+                  trades={42}
+                  winRate="68%"
+                />
+              </DialogContent>
+            </Dialog>
+
             {isConnected ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -90,6 +112,26 @@ export const Navigation = () => {
           >
             <div className="container mx-auto px-6 py-4">
               <div className="flex flex-col space-y-4">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full bg-dark-purple/50 border-white/10 text-white">
+                      <TrendingUp className="w-4 h-4 mr-2" />
+                      P&L Stats
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-dark-purple/95 border-white/10">
+                    <DialogHeader>
+                      <DialogTitle className="text-white">Your P&L Statistics</DialogTitle>
+                    </DialogHeader>
+                    <PLCard
+                      profit="+2.5 SOL"
+                      timeFrame="Last 30 Days"
+                      trades={42}
+                      winRate="68%"
+                    />
+                  </DialogContent>
+                </Dialog>
+
                 {isConnected ? (
                   <Button 
                     variant="outline"
