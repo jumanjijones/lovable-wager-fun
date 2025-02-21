@@ -1,15 +1,13 @@
 
 import { useState } from "react";
-import { Menu, X, Wallet, Sun, Moon } from "lucide-react";
+import { Menu, X, Wallet } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WinnersCarousel } from "./WinnersCarousel";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   const handleConnect = () => {
     setIsConnected(true);
@@ -30,18 +28,6 @@ export const Navigation = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
-
             <Button 
               onClick={handleConnect}
               className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
@@ -73,20 +59,6 @@ export const Navigation = () => {
             <div className="container mx-auto px-6 py-4 space-y-4">
               <WinnersCarousel />
               
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-start"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                {theme === "dark" ? (
-                  <Sun className="h-5 w-5 mr-2" />
-                ) : (
-                  <Moon className="h-5 w-5 mr-2" />
-                )}
-                {theme === "dark" ? "Light Mode" : "Dark Mode"}
-              </Button>
-
               <Button 
                 onClick={handleConnect}
                 className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"

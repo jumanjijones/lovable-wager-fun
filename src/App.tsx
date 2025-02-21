@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider defaultTheme="dark" forcedTheme="dark">
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
