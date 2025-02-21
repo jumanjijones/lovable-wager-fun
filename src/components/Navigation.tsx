@@ -2,14 +2,6 @@
 import { useState } from "react";
 import { Menu, X, Wallet, TrendingUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PLCard } from "@/components/PLCard";
@@ -20,12 +12,6 @@ export const Navigation = () => {
 
   const handleConnect = () => {
     setIsConnected(true);
-  };
-
-  const mockWalletData = {
-    address: "0x1234...5678",
-    balance: "1.5 SOL",
-    points: 1250,
   };
 
   return (
@@ -58,37 +44,13 @@ export const Navigation = () => {
               </DialogContent>
             </Dialog>
 
-            {isConnected ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="bg-dark-purple/50 border-white/10 text-white">
-                    <Wallet className="w-4 h-4 mr-2" />
-                    {mockWalletData.address}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-dark-purple/95 backdrop-blur-xl border-white/10">
-                  <DropdownMenuLabel className="text-white">Wallet Info</DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem className="text-white">
-                    Balance: {mockWalletData.balance}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-white">
-                    Points: {mockWalletData.points}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem className="text-white">
-                    Disconnect
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button 
-                onClick={handleConnect}
-                className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
-              >
-                Connect Wallet
-              </Button>
-            )}
+            <Button 
+              onClick={handleConnect}
+              className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
+            >
+              <Wallet className="w-4 h-4 mr-2" />
+              {isConnected ? "0x1234...5678" : "Connect Wallet"}
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -132,22 +94,13 @@ export const Navigation = () => {
                   </DialogContent>
                 </Dialog>
 
-                {isConnected ? (
-                  <Button 
-                    variant="outline"
-                    className="w-full bg-dark-purple/50 border-white/10 text-white"
-                    onClick={() => setIsConnected(false)}
-                  >
-                    Disconnect Wallet
-                  </Button>
-                ) : (
-                  <Button 
-                    className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
-                    onClick={handleConnect}
-                  >
-                    Connect Wallet
-                  </Button>
-                )}
+                <Button 
+                  onClick={handleConnect}
+                  className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
+                >
+                  <Wallet className="w-4 h-4 mr-2" />
+                  {isConnected ? "0x1234...5678" : "Connect Wallet"}
+                </Button>
               </div>
             </div>
           </motion.div>

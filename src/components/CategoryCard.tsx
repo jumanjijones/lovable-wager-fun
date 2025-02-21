@@ -18,6 +18,12 @@ export const CategoryCard = ({
   poolValue,
   onClick,
 }: CategoryCardProps) => {
+  const subtitles: { [key: string]: string } = {
+    "Pocket Change": "Low Stake - High Fun",
+    "Ballers": "Risk Takers",
+    "High Limit VIP": "Mental Issues"
+  };
+
   return (
     <motion.div
       whileHover={{ scale: 1.02, translateY: -5 }}
@@ -41,6 +47,7 @@ export const CategoryCard = ({
             </span>
           </div>
           <h3 className="text-2xl font-semibold text-white mt-2">{title}</h3>
+          <p className="text-sm font-medium text-ocean-blue mt-1">{subtitles[title]}</p>
           <p className="text-white/70 mt-2">{description}</p>
         </div>
       </div>
