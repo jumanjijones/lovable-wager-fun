@@ -1,18 +1,22 @@
 
 import { useState } from "react";
-import { Menu, X, Wallet, TrendingUp } from "lucide-react";
+import { Menu, X, Wallet, TrendingUp, LogOut, Coins } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PLCard } from "@/components/PLCard";
+import { useWallet } from "@/contexts/WalletContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
-
-  const handleConnect = () => {
-    setIsConnected(true);
-  };
+  const { connected, publicKey, solBalance, points, connectWallet, disconnectWallet } = useWallet();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
@@ -44,13 +48,39 @@ export const Navigation = () => {
               </DialogContent>
             </Dialog>
 
-            <Button 
-              onClick={handleConnect}
-              className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
-            >
-              <Wallet className="w-4 h-4 mr-2" />
-              {isConnected ? "0x1234...5678" : "Connect Wallet"}
-            </Button>
+            {connected ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity">
+                    <Wallet className="w-4 h-4 mr-2" />
+                    {publicKey?.toString().slice(0, 4)}...{publicKey?.toString().slice(-4)}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-dark-purple/95 border-white/10 text-white">
+                  <DropdownMenuItem className="flex items-center">
+                    <Coins className="mr-2 h-4 w-4" />
+                    <span>{solBalance.toFixed(2)} SOL</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex items-center">
+                    <TrendingUp className="mr-2 h-4 w-4" />
+                    <span>{points} Points</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem className="flex items-center text-red-400" onClick={disconnectWallet}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Disconnect</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                onClick={connectWallet}
+                className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
+              >
+                <Wallet className="w-4 h-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -94,13 +124,33 @@ export const Navigation = () => {
                   </DialogContent>
                 </Dialog>
 
-                <Button 
-                  onClick={handleConnect}
-                  className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
-                >
-                  <Wallet className="w-4 h-4 mr-2" />
-                  {isConnected ? "0x1234...5678" : "Connect Wallet"}
-                </Button>
+                {connected ? (
+                  <>
+                    <Button variant="outline" className="w-full bg-dark-purple/50 border-white/10 text-white">
+                      <Coins className="w-4 h-4 mr-2" />
+                      {solBalance.toFixed(2)} SOL
+                    </Button>
+                    <Button variant="outline" className="w-full bg-dark-purple/50 border-white/10 text-white">
+                      <TrendingUp className="w-4 h-4 mr-2" />
+                      {points} Points
+                    </Button>
+                    <Button 
+                      onClick={disconnectWallet}
+                      className="w-full bg-red-500/20 text-red-400 hover:bg-red-500/30"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Disconnect
+                    </Button>
+                  </>
+                ) : (
+                  <Button 
+                    onClick={connectWallet}
+                    className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
+                  >
+                    <Wallet className="w-4 h-4 mr-2" />
+                    Connect Wallet
+                  </Button>
+                )}
               </div>
             </div>
           </motion.div>
