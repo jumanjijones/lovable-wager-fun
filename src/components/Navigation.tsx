@@ -1,99 +1,59 @@
 
 import { useState } from "react";
-import { Menu, X, Wallet, TrendingUp } from "lucide-react";
+import { Menu, X, Wallet, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { WinnersCarousel } from "./WinnersCarousel";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { PLCard } from "@/components/PLCard";
+import { useTheme } from "next-themes";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const handleConnect = () => {
     setIsConnected(true);
   };
 
-  const mockWalletData = {
-    address: "0x1234...5678",
-    balance: "1.5 SOL",
-    points: 1250,
-  };
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <a href="/" className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-light-purple to-ocean-blue">
             Run It!
           </a>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="bg-dark-purple/50 border-white/10 text-white">
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  P&L Stats
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-dark-purple/95 border-white/10">
-                <DialogHeader>
-                  <DialogTitle className="text-white">Your P&L Statistics</DialogTitle>
-                </DialogHeader>
-                <PLCard
-                  profit="+2.5 SOL"
-                  timeFrame="Last 30 Days"
-                  trades={42}
-                  winRate="68%"
-                />
-              </DialogContent>
-            </Dialog>
+          {/* Winners Carousel - Hidden on mobile */}
+          <div className="hidden md:block flex-1 mx-8">
+            <WinnersCarousel />
+          </div>
 
-            {isConnected ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="bg-dark-purple/50 border-white/10 text-white">
-                    <Wallet className="w-4 h-4 mr-2" />
-                    {mockWalletData.address}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-dark-purple/95 backdrop-blur-xl border-white/10">
-                  <DropdownMenuLabel className="text-white">Wallet Info</DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem className="text-white">
-                    Balance: {mockWalletData.balance}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-white">
-                    Points: {mockWalletData.points}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem className="text-white">
-                    Disconnect
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button 
-                onClick={handleConnect}
-                className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
-              >
-                Connect Wallet
-              </Button>
-            )}
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+
+            <Button 
+              onClick={handleConnect}
+              className="bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
+            >
+              <Wallet className="w-4 h-4 mr-2" />
+              {isConnected ? "0x1234...5678" : "Connect Wallet"}
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-foreground"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -108,47 +68,32 @@ export const Navigation = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-dark-purple/95 backdrop-blur-xl"
+            className="md:hidden bg-background/95 backdrop-blur-xl"
           >
-            <div className="container mx-auto px-6 py-4">
-              <div className="flex flex-col space-y-4">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="w-full bg-dark-purple/50 border-white/10 text-white">
-                      <TrendingUp className="w-4 h-4 mr-2" />
-                      P&L Stats
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-dark-purple/95 border-white/10">
-                    <DialogHeader>
-                      <DialogTitle className="text-white">Your P&L Statistics</DialogTitle>
-                    </DialogHeader>
-                    <PLCard
-                      profit="+2.5 SOL"
-                      timeFrame="Last 30 Days"
-                      trades={42}
-                      winRate="68%"
-                    />
-                  </DialogContent>
-                </Dialog>
-
-                {isConnected ? (
-                  <Button 
-                    variant="outline"
-                    className="w-full bg-dark-purple/50 border-white/10 text-white"
-                    onClick={() => setIsConnected(false)}
-                  >
-                    Disconnect Wallet
-                  </Button>
+            <div className="container mx-auto px-6 py-4 space-y-4">
+              <WinnersCarousel />
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-5 w-5 mr-2" />
                 ) : (
-                  <Button 
-                    className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
-                    onClick={handleConnect}
-                  >
-                    Connect Wallet
-                  </Button>
+                  <Moon className="h-5 w-5 mr-2" />
                 )}
-              </div>
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </Button>
+
+              <Button 
+                onClick={handleConnect}
+                className="w-full bg-gradient-to-r from-light-purple to-ocean-blue text-white hover:opacity-90 transition-opacity"
+              >
+                <Wallet className="w-4 h-4 mr-2" />
+                {isConnected ? "0x1234...5678" : "Connect Wallet"}
+              </Button>
             </div>
           </motion.div>
         )}

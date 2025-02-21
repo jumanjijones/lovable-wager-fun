@@ -3,19 +3,19 @@ import { motion } from "framer-motion";
 
 interface CategoryCardProps {
   title: string;
+  subtitle: string;
   description: string;
   minEntry: string;
   maxEntry: string;
-  poolValue: string;
   onClick?: () => void;
 }
 
 export const CategoryCard = ({
   title,
+  subtitle,
   description,
   minEntry,
   maxEntry,
-  poolValue,
   onClick,
 }: CategoryCardProps) => {
   return (
@@ -26,23 +26,19 @@ export const CategoryCard = ({
       onClick={onClick}
     >
       {/* Gradient background with glass effect */}
-      <div className="absolute inset-0 bg-gradient-card opacity-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />
       <div className="absolute inset-0 backdrop-blur-xl bg-white/5" />
       
       {/* Card content */}
-      <div className="relative flex flex-col gap-4">
-        <div>
-          <div className="flex justify-between items-center">
-            <span className="text-xs font-medium text-light-purple uppercase tracking-wider">
-              Entry: ${minEntry} - ${maxEntry}
-            </span>
-            <span className="text-xs font-medium text-ocean-blue uppercase tracking-wider">
-              Pool: ${poolValue}
-            </span>
-          </div>
-          <h3 className="text-2xl font-semibold text-white mt-2">{title}</h3>
-          <p className="text-white/70 mt-2">{description}</p>
+      <div className="relative space-y-2">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-semibold text-foreground">{title}</h3>
+          <span className="text-xs font-medium text-ocean-blue">
+            ${minEntry} - ${maxEntry}
+          </span>
         </div>
+        <p className="text-sm font-medium text-light-purple">{subtitle}</p>
+        <p className="text-sm text-foreground/70">{description}</p>
       </div>
     </motion.div>
   );
