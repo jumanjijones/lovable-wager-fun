@@ -92,16 +92,20 @@ export const CreateMatchButton = () => {
     }
 
     try {
+      // Insert new pool with creator's wallet address as TEXT
       const { error } = await supabase
         .from("pools")
-        .insert([{
+        .insert({
           creator_id: publicKey.toString(),
           pool_type: poolType,
           ante_amount: Number(anteAmount),
           status: 'active'
-        }]);
+        });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
       toast({
         title: "Success",
