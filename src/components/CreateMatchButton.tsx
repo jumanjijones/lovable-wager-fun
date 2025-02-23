@@ -16,7 +16,9 @@ import { useWallet } from "@/contexts/WalletContext";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-const poolTypes = {
+type PoolType = 'pocket_change' | 'ballers' | 'high_limit_vip';
+
+const poolTypes: Record<PoolType, { label: string; min: number; max: number }> = {
   pocket_change: {
     label: "Pocket Change",
     min: 1,
@@ -38,7 +40,7 @@ export const CreateMatchButton = () => {
   const { connected, publicKey } = useWallet();
   const { toast } = useToast();
   const [matchType, setMatchType] = useState("public");
-  const [poolType, setPoolType] = useState("pocket_change");
+  const [poolType, setPoolType] = useState<PoolType>("pocket_change");
   const [anteAmount, setAnteAmount] = useState("");
   const [timeLimit, setTimeLimit] = useState("none");
   const [participants, setParticipants] = useState("2");
@@ -52,7 +54,7 @@ export const CreateMatchButton = () => {
 
   const validateAnteAmount = () => {
     const amount = Number(anteAmount);
-    const selectedPool = poolTypes[poolType as keyof typeof poolTypes];
+    const selectedPool = poolTypes[poolType];
     
     if (isNaN(amount) || amount < selectedPool.min) {
       toast({
@@ -76,7 +78,7 @@ export const CreateMatchButton = () => {
   };
 
   const handleCreateMatch = async () => {
-    if (!connected) {
+    if (!connected || !publicKey) {
       toast({
         variant: "destructive",
         title: "Wallet not connected",
@@ -90,14 +92,14 @@ export const CreateMatchButton = () => {
     }
 
     try {
-      const { data, error } = await supabase.from('pools').insert([
-        {
-          creator_id: publicKey?.toString(),
+      const { error } = await supabase
+        .from("pools")
+        .insert([{
+          creator_id: publicKey.toString(),
           pool_type: poolType,
           ante_amount: Number(anteAmount),
           status: 'active'
-        }
-      ]);
+        }]);
 
       if (error) throw error;
 
@@ -151,7 +153,7 @@ export const CreateMatchButton = () => {
         
         <div className="p-2">
           <label className="text-xs text-white/70">Pool Type</label>
-          <DropdownMenuRadioGroup value={poolType} onValueChange={setPoolType}>
+          <DropdownMenuRadioGroup value={poolType} onValueChange={setPoolType as (value: string) => void}>
             <DropdownMenuRadioItem value="pocket_change" className="text-white">
               Pocket Change (1-100 SOL)
             </DropdownMenuRadioItem>
@@ -172,7 +174,7 @@ export const CreateMatchButton = () => {
             type="number"
             value={anteAmount}
             onChange={(e) => handleAnteAmountChange(e.target.value)}
-            placeholder={`Min ${poolTypes[poolType as keyof typeof poolTypes].min} SOL`}
+            placeholder={`Min ${poolTypes[poolType].min} SOL`}
             className="mt-1 bg-white/5 border-white/10 text-white"
           />
         </div>

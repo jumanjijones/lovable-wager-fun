@@ -9,7 +9,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      pools: {
+        Row: {
+          ante_amount: number
+          created_at: string | null
+          creator_id: string
+          id: string
+          pool_type: Database["public"]["Enums"]["pool_type"]
+          status: string
+          updated_at: string | null
+          winner_id: string | null
+        }
+        Insert: {
+          ante_amount: number
+          created_at?: string | null
+          creator_id: string
+          id?: string
+          pool_type: Database["public"]["Enums"]["pool_type"]
+          status?: string
+          updated_at?: string | null
+          winner_id?: string | null
+        }
+        Update: {
+          ante_amount?: number
+          created_at?: string | null
+          creator_id?: string
+          id?: string
+          pool_type?: Database["public"]["Enums"]["pool_type"]
+          status?: string
+          updated_at?: string | null
+          winner_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +50,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      pool_type: "pocket_change" | "ballers" | "high_limit_vip"
     }
     CompositeTypes: {
       [_ in never]: never
