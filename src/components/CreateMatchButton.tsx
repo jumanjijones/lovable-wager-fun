@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Plus, Clock, Users, Shuffle } from "lucide-react";
+import { Plus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,20 +12,110 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useWallet } from "@/contexts/WalletContext";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+
+const poolTypes = {
+  pocket_change: {
+    label: "Pocket Change",
+    min: 1,
+    max: 100,
+  },
+  ballers: {
+    label: "Ballers",
+    min: 101,
+    max: 10000,
+  },
+  high_limit_vip: {
+    label: "High Limit VIP",
+    min: 10001,
+    max: Infinity,
+  },
+};
 
 export const CreateMatchButton = () => {
+  const { connected, publicKey } = useWallet();
+  const { toast } = useToast();
   const [matchType, setMatchType] = useState("public");
-  const [gameType, setGameType] = useState("coinToss");
+  const [poolType, setPoolType] = useState("pocket_change");
+  const [anteAmount, setAnteAmount] = useState("");
   const [timeLimit, setTimeLimit] = useState("none");
   const [participants, setParticipants] = useState("2");
 
-  const handleCreateMatch = () => {
-    console.log({
-      matchType,
-      gameType,
-      timeLimit,
-      participants,
-    });
+  const handleAnteAmountChange = (value: string) => {
+    // Allow empty string or valid numbers
+    if (value === "" || !isNaN(Number(value))) {
+      setAnteAmount(value);
+    }
+  };
+
+  const validateAnteAmount = () => {
+    const amount = Number(anteAmount);
+    const selectedPool = poolTypes[poolType as keyof typeof poolTypes];
+    
+    if (isNaN(amount) || amount < selectedPool.min) {
+      toast({
+        variant: "destructive",
+        title: "Invalid ante amount",
+        description: `Minimum ante for ${selectedPool.label} is ${selectedPool.min} SOL`,
+      });
+      return false;
+    }
+    
+    if (amount > selectedPool.max) {
+      toast({
+        variant: "destructive",
+        title: "Invalid ante amount",
+        description: `Maximum ante for ${selectedPool.label} is ${selectedPool.max} SOL`,
+      });
+      return false;
+    }
+    
+    return true;
+  };
+
+  const handleCreateMatch = async () => {
+    if (!connected) {
+      toast({
+        variant: "destructive",
+        title: "Wallet not connected",
+        description: "Please connect your wallet to create a match",
+      });
+      return;
+    }
+
+    if (!validateAnteAmount()) {
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.from('pools').insert([
+        {
+          creator_id: publicKey?.toString(),
+          pool_type: poolType,
+          ante_amount: Number(anteAmount),
+          status: 'active'
+        }
+      ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Pool created successfully!",
+      });
+
+      // Reset form
+      setAnteAmount("");
+    } catch (error) {
+      console.error('Error creating pool:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to create pool. Please try again.",
+      });
+    }
   };
 
   const handleParticipantsChange = (value: string) => {
@@ -40,9 +130,7 @@ export const CreateMatchButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          className="bg-gradient-to-r from-light-purple to-ocean-blue hover:opacity-90 transition-opacity text-white"
-        >
+        <Button className="bg-gradient-to-r from-light-purple to-ocean-blue hover:opacity-90 transition-opacity text-white">
           <Plus className="w-4 h-4 mr-2" />
           Create Match
         </Button>
@@ -62,13 +150,31 @@ export const CreateMatchButton = () => {
         <DropdownMenuSeparator className="bg-white/10" />
         
         <div className="p-2">
-          <label className="text-xs text-white/70">Game Type</label>
-          <DropdownMenuRadioGroup value={gameType} onValueChange={setGameType}>
-            <DropdownMenuRadioItem value="coinToss" className="text-white">Coin Toss (1v1)</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="cardDraw" className="text-white">Card Draw</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="shortStraw" className="text-white">Short Straw</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="randomShuffle" className="text-white">Random Shuffle</DropdownMenuRadioItem>
+          <label className="text-xs text-white/70">Pool Type</label>
+          <DropdownMenuRadioGroup value={poolType} onValueChange={setPoolType}>
+            <DropdownMenuRadioItem value="pocket_change" className="text-white">
+              Pocket Change (1-100 SOL)
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="ballers" className="text-white">
+              Ballers (101-10,000 SOL)
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="high_limit_vip" className="text-white">
+              High Limit VIP (10,001+ SOL)
+            </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
+        </div>
+
+        <DropdownMenuSeparator className="bg-white/10" />
+        
+        <div className="p-2">
+          <label className="text-xs text-white/70">Ante Amount (SOL)</label>
+          <Input
+            type="number"
+            value={anteAmount}
+            onChange={(e) => handleAnteAmountChange(e.target.value)}
+            placeholder={`Min ${poolTypes[poolType as keyof typeof poolTypes].min} SOL`}
+            className="mt-1 bg-white/5 border-white/10 text-white"
+          />
         </div>
 
         <DropdownMenuSeparator className="bg-white/10" />
